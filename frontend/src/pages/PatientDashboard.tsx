@@ -51,7 +51,7 @@ export default function PatientDashboard() {
   const [error, setError] = useState<string | null>(null);
 
   const setDemoDefaults = () => {
-    const mockMeds = todayMedicines.map(m => ({
+    const mockMeds = (todayMedicines || []).map(m => ({
       _id: m.id,
       name: m.name,
       dose: m.dose,
@@ -399,6 +399,7 @@ export default function PatientDashboard() {
                         e.preventDefault();
                         const target = e.target as HTMLFormElement;
                         const name = (target.elements.namedItem('docName') as HTMLInputElement).value;
+                        const specialty = (target.elements.namedItem('docSpec') as HTMLInputElement).value;
                         const email = (target.elements.namedItem('docEmail') as HTMLInputElement).value;
                         const phone = (target.elements.namedItem('docPhone') as HTMLInputElement).value;
 
