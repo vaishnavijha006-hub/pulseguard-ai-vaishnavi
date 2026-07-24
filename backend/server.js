@@ -37,9 +37,17 @@ app.use(
       if (/^https:\/\/pulseguard-ai.*\.netlify\.app$/.test(origin)) {
         return callback(null, true);
       }
+      // Allow any Render URL for this project
+      if (/^https:\/\/pulseguard-ai.*\.onrender\.com$/.test(origin)) {
+        return callback(null, true);
+      }
       // Check against CLIENT_URL (supports comma-separated list)
       const allowedOrigins = (env.clientUrl || '').split(',').map(s => s.trim()).filter(Boolean);
       if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      // In production, if no specific match, allow the origin for flexibility
+      if (env.nodeEnv === 'production') {
         return callback(null, true);
       }
       callback(new Error('Not allowed by CORS'));
