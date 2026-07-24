@@ -1398,3 +1398,5 @@
     at router.process_params (C:\Users\sapna jha\Downloads\PulseGuard-AI\backend\node_modules\express\lib\router\index.js:346:12)
     at next (C:\Users\sapna jha\Downloads\PulseGuard-AI\backend\node_modules\express\lib\router\index.js:280:10)
 [2026-07-24T17:11:32.574Z] ERROR: Uncaught Exception: listen EADDRINUSE: address already in use :::5000
+[2026-07-24T22:35:40.705Z] INFO: PulseGuard AI backend running in development mode on port 5000
+[2026-07-24T22:37:47.526Z] ERROR: Uncaught Exception: listen EADDRINUSE: address already in use :::5000

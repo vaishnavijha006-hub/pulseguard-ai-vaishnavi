@@ -2,27 +2,32 @@
 const User = require('../models/User.model');
 const asyncHandler = require('express-async-handler');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 // Helper: send email (placeholder – configure real SMTP in .env)
 const sendEmail = async ({ to, subject, html }) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.example.com',
-    port: process.env.SMTP_PORT || 587,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER || 'user@example.com',
-      pass: process.env.SMTP_PASS || 'password',
-    },
-  });
+  try {
+    const nodemailer = require('nodemailer');
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.example.com',
+      port: process.env.SMTP_PORT || 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER || 'user@example.com',
+        pass: process.env.SMTP_PASS || 'password',
+      },
+    });
 
-  await transporter.sendMail({
-    from: `"PulseGuard AI" <${process.env.SMTP_FROM || 'no-reply@pulseguard.ai'}>`,
-    to,
-    subject,
-    html,
-  });
+    await transporter.sendMail({
+      from: `"PulseGuard AI" <${process.env.SMTP_FROM || 'no-reply@pulseguard.ai'}>`,
+      to,
+      subject,
+      html,
+    });
+  } catch (error) {
+    console.warn('Email sending failed (nodemailer not available or misconfigured):', error.message);
+    // Don't throw - email is non-critical for auth flow
+  }
 };
 
 /* ------------------------------------------------------------------
