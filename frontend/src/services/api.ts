@@ -2,8 +2,7 @@
 import axios from 'axios';
 
 // Base URL for all API calls
-// Always use production Render backend for browser-based calls
-// (localhost:5000 won't be accessible from the browser in v0 environment)
+// Uses VITE_API_URL env var if set, otherwise falls back to production Render backend
 const PRODUCTION_API = 'https://pulseguard-ai-v86p.onrender.com/api/v1';
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || PRODUCTION_API,
