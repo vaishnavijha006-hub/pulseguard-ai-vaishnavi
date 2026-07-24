@@ -2,8 +2,11 @@ services:
   - type: web
     name: pulseguard-ai-backend
     env: node
-    buildCommand: cd backend && npm install
+    runtime: node
+    plan: free
+    buildCommand: cd backend && npm install --legacy-peer-deps
     startCommand: cd backend && npm start
+    nodeVersion: 18.20.0
     envVars:
       - key: NODE_ENV
         value: production
@@ -17,3 +20,4 @@ services:
         value: 7d
       - key: CLIENT_URL
         sync: false
+    region: oregon
