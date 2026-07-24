@@ -25,8 +25,12 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps, curl)
       if (!origin) return callback(null, true);
-      // In development, allow any localhost origin
+      // In development, allow any localhost origin (including v0 preview)
       if (env.nodeEnv === 'development' && /^https?:\/\/localhost(:\d+)?$/.test(origin)) {
+        return callback(null, true);
+      }
+      // Allow v0 preview environment (vusercontent.net)
+      if (/^https?:\/\/.*\.vusercontent\.net(:\d+)?$/.test(origin)) {
         return callback(null, true);
       }
       // Allow any Vercel preview/production URL for this project
