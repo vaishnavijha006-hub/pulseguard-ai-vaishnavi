@@ -20,16 +20,20 @@ export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const { register } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     try {
       await register(name, email, password, role);
       navigate(`/dashboard/${role}`);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Registration failed', err);
+      const errorMessage = err.response?.data?.message || err.message || 'Registration failed. Please try again.';
+      setError(errorMessage);
     }
   };
 
@@ -47,6 +51,11 @@ export default function RegisterPage() {
       }
     >
       <form onSubmit={handleSubmit} className="space-y-5">
+        {error && (
+          <div className="rounded-lg bg-red-500/10 border border-red-500/30 p-4 text-sm text-red-400">
+            {error}
+          </div>
+        )}
         {/* Role selector */}
         <div>
           <span className="mb-2 block text-xs font-medium uppercase tracking-wider text-slate-400">

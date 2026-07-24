@@ -11,14 +11,18 @@ export default function LoginPage() {
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     try {
       await login(email, password);
       navigate('/dashboard/patient');
-    } catch (err) {
+    } catch (err: any) {
       console.error('Login failed', err);
+      const errorMessage = err.response?.data?.message || err.message || 'Login failed. Please check your credentials.';
+      setError(errorMessage);
     }
   };
 
@@ -36,6 +40,11 @@ export default function LoginPage() {
       }
     >
       <form onSubmit={handleSubmit} className="space-y-5">
+        {error && (
+          <div className="rounded-lg bg-red-500/10 border border-red-500/30 p-4 text-sm text-red-400">
+            {error}
+          </div>
+        )}
         <AuthInput
           label="Email address"
           type="email"
